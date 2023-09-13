@@ -1,0 +1,20 @@
+.movie-page {
+    display: grid;
+    align-items: stretch;
+    grid-gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-auto-rows: 1fr;
+    max-width: 1280px;
+    margin: auto;
+    padding: 40px 20px;
+  }
+  
+  .movie-header {
+    min-height: 80px;
+    color: var(--primary-bg-color);
+  }
+  
+  .fave-button {
+    margin-left: auto;
+    color: #d87093;
+  }

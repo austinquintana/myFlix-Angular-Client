@@ -1,10 +1,11 @@
-<mat-toolbar class="navbar">
-    <a routerLink="/movies">
-      <h2 style="margin-right: 10px;">myFlix App</h2>
-    </a>
-    <span class="example-spacer"></span>
-    <a routerLink="/profile">Profile</a>
-    <button mat-icon-button aria-label="Logout" (click)="logoutUser()">
-      <mat-icon>exit_to_app</mat-icon>
-    </button>
-  </mat-toolbar>
+<mat-toolbar color="primary">
+  <a mat-button (click)="toMovies()" target="_blank">myFlix</a>
+
+      <span class="spacer"></span>
+      <button mat-icon-button class="example-icon favorite-icon" aria-label="user profile button" (click)="toProfile()">
+          <mat-icon>person</mat-icon>
+      </button>
+      <button mat-icon-button (click)="toLogout()" class="example-icon" aria-label="logout button">
+          <mat-icon>logout</mat-icon>
+      </button>
+</mat-toolbar>

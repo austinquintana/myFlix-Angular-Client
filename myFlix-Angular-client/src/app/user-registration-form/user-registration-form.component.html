@@ -28,6 +28,17 @@
       <mat-form-field>
         <input
           matInput
+          [(ngModel)]="userData.ControlPassword"
+          minlength="8"
+          type="password"
+          placeholder="Password"
+          name="ControlPassword"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
           [(ngModel)]="userData.Email"
           type="email"
           placeholder="Email"

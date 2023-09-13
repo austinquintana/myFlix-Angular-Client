@@ -5,7 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 //Declaring the api url that will provide data for the client app
-const apiUrl = 'https://austinmovieapp.herokuapp.com/';
+const apiUrl = 'http://localhost:8080/';
 
 @Injectable({
   providedIn: 'root'
@@ -106,10 +106,10 @@ export class FetchApiDataService {
 
   /**
    * Making the api call for the get one user endpoint
-   * @param username 
+   * @param Username 
    * @returns an observable with a user object
    */
-  getOneUser(username: string): Observable<any> {
+  getOneUser(Username: string): Observable<any> {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     return user;
     // This endpoint does not exist but this is how it would look
@@ -128,12 +128,12 @@ export class FetchApiDataService {
 
   /**
    * Making the api call for the get favourite movies for a user endpoint
-   * @param username 
+   * @param Username 
    * @returns an observable with a users FavoriteMovies array
    */
-  getFavoriteMovies(username: string): Observable<any> {
+  getFavoriteMovies(Username: string): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.get(apiUrl + 'users/' + username, {
+    return this.http.get(apiUrl + 'users/' + Username, {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,
       })
@@ -181,17 +181,22 @@ export class FetchApiDataService {
 
   /**
    * Making the api call for the add a movie to favourite Movies endpoint
-   * @param movieId 
+   * @param movieID 
    * @returns an observable with a user object
    */
-  addFavoriteMovie(movieId: string): Observable<any> {
+  addFavoriteMovie(movieID: string): Observable<any> {
     const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-    user.FavoriteMovies.push(movieId);
+    // Ensure that FavoriteMovies is an array before pushing
+  if (!Array.isArray(user.FavoriteMovies)) {
+    user.FavoriteMovies = [];
+  }
+
+    user.FavoriteMovies.push(movieID);
     localStorage.setItem('user', JSON.stringify(user));
     
-    return this.http.put(apiUrl + `users/${user.Username}/${movieId}`, {}, {
+    return this.http.put(apiUrl + `users/${user.Username}/${movieID}`, {}, {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
         Authorization: 'Bearer ' + token,
@@ -204,20 +209,20 @@ export class FetchApiDataService {
 
   /**
    * Making the api call for the elete a movie from the favorite movies endpoint
-   * @param movieId 
+   * @param movieID
    * @returns an observable with a user object
    */
-  deleteFavoriteMovie(movieId: string): Observable<any> {
+  deleteFavoriteMovie(movieID: string): Observable<any> {
     const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-    const index = user.FavoriteMovies.indexOf(movieId);
+    const index = user.FavoriteMovies.indexOf(movieID);
     if (index >= 0) {
       user.FavoriteMovies.splice(index, 1);
     }
     localStorage.setItem('user', JSON.stringify(user));
 
-    return this.http.delete(apiUrl + `users/${user.Username}/${movieId}`, {
+    return this.http.delete(apiUrl + `users/${user.Username}/${movieID}`, {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,
       })
@@ -233,11 +238,13 @@ export class FetchApiDataService {
    * @returns boolean value if user contains the movie in their FavoriteMovies
    */  
   isFavoriteMovie(movieId: string): boolean {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    if (user) {
-      return user.FavoriteMovies.includes(movieId);
+    const userJSON = localStorage.getItem('user');
+    if (userJSON) {
+      const user = JSON.parse(userJSON);
+      if (user && user.FavoriteMovies) {
+        return user.FavoriteMovies.includes(movieId);
+      }
     }
-
     return false;
   }
 
