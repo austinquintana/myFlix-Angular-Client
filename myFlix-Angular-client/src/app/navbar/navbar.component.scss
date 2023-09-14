@@ -1,9 +1,26 @@
 .navbar {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
-  
-  .example-spacer {
-    flex: 1 1 auto;
-  }
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #1976D2; /* Add your desired blue color here */
+  color: white; /* Set the text color to white or your desired color */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px; /* Add padding as needed */
+}
+
+.navbar a {
+  text-decoration: none;
+  font-weight: bold;
+  color: white; /* Set the text color to white or your desired color */
+}
+
+.icon-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.example-icon {
+  margin-left: 10px; /* Add margin to the icons for spacing */
+}
