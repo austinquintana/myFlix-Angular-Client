@@ -189,11 +189,11 @@ export class FetchApiDataService {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 
     // Ensure that FavoriteMovies is an array before pushing
-  if (!Array.isArray(user.FavoriteMovies)) {
-    user.FavoriteMovies = [];
+  if (!Array.isArray(user.favoriteMovies)) {
+    user.favoriteMovies = [];
   }
 
-    user.FavoriteMovies.push(movieID);
+    user.favoriteMovies.push(movieID);
     localStorage.setItem('user', JSON.stringify(user));
     
     return this.http.put(apiUrl + `users/${user.Username}/${movieID}`, {}, {
@@ -216,9 +216,9 @@ export class FetchApiDataService {
     const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-    const index = user.FavoriteMovies.indexOf(movieID);
+    const index = user.favoriteMovies.indexOf(movieID);
     if (index >= 0) {
-      user.FavoriteMovies.splice(index, 1);
+      user.favoriteMovies.splice(index, 1);
     }
     localStorage.setItem('user', JSON.stringify(user));
 
@@ -234,15 +234,15 @@ export class FetchApiDataService {
 
   /**
    * 
-   * @param movieId 
+   * @param movieID 
    * @returns boolean value if user contains the movie in their FavoriteMovies
    */  
-  isFavoriteMovie(movieId: string): boolean {
+  isFavoriteMovie(movieID: string): boolean {
     const userJSON = localStorage.getItem('user');
     if (userJSON) {
       const user = JSON.parse(userJSON);
-      if (user && user.FavoriteMovies) {
-        return user.FavoriteMovies.includes(movieId);
+      if (user && user.favoriteMovies) {
+        return user.favoriteMovies.includes(movieID);
       }
     }
     return false;
