@@ -64,9 +64,16 @@ export class ProfilePageComponent implements OnInit {
   }
 
   getFavoriteMovies(): void {
-    this.fetchApiData.getFavoriteMovies(this.user.Username || '').subscribe((movies: any) => {
-      this.favoriteMovies = movies;
-    });
+    this.fetchApiData
+      .getFavoriteMovies(this.user.Username || "")
+      .subscribe((favoriteMoviesIDs: any) => {
+        this.fetchApiData.getAllMovies().subscribe((movies: any) => {
+          // filter the full movies objects array against the array of favorite movies id of the user
+          this.favoriteMovies = movies.filter((movie: any) =>
+            favoriteMoviesIDs.includes(movie._id)
+          );
+        });
+      });
   }
 }
 
